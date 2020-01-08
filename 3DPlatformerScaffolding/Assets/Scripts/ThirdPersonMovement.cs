@@ -9,6 +9,12 @@ public class ThirdPersonMovement : MonoBehaviour
     private Rigidbody rigid;
     [SerializeField]
     private float speed = 10;
+    [SerializeField]
+    private float JumpForce = 1000;
+    [SerializeField]
+    private float groundCheck = 0.2f;
+    [SerializeField]
+    private Transform Legs;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,5 +39,10 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector3 playerMovement = new Vector3(Horizontal, 0f, Vertical) * speed * Time.deltaTime;
         transform.Translate(playerMovement, Space.Self);
 
+
+        if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(Legs.position, transform.up * -1, groundCheck))
+        {
+            rigid.AddForce(Vector3.up * JumpForce);
+        }
     }
 }
